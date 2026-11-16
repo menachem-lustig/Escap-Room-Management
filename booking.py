@@ -59,6 +59,7 @@ def new_booking(bookings,rooms):
 def show_all_bookings(bookings):
     for booking in bookings:
         print(booking)
+        print()
 
 
 def search_booking(bookings):

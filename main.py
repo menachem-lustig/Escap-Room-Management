@@ -1,6 +1,9 @@
 from rooms import show_all_rooms,search_room,add_room,update_room,activation
-from json_functions import load_rooms
+from json_functions import load_rooms,load_bookings
 from validators import valid_str
+from booking import new_booking,show_all_bookings,search_booking,show_customer_bookings,show_bookings_by_date,update_booking,cancel_booking
+from reports import active_bookings,canceled_bookings,total_revenues,total_cancellation_fee,most_popular_room,bookings_by_room,room_occupancy
+
 
 def rooms_menu():
     print("""
@@ -82,6 +85,51 @@ def booking_main():
             case _:
                 print('Invalid option.')
 
+def report_menu():
+    print("""
+    ================================
+            REPORT MENU
+    ================================
+
+    1. Show total active bookings
+    2. Show total number of cancelled bookings.
+    3. Show total revenue from active bookings
+    4. Show total cancellation fees from cancelled bookings
+    5. Show the most popular room by number of active bookings
+    6. Show number of bookings per room
+    7. Show the occupancy rate of a specific room on a given date
+    8. Return to the main menu
+    """)
+
+def report_main():
+    active = True
+    while active:
+        rooms = load_rooms()
+        bookings = load_bookings()
+        report_menu()
+        choice = valid_str('Choose an option: ')
+        match choice:
+            case '1':
+                active_bookings(bookings)
+            case '2':
+                canceled_bookings(bookings)
+            case '3':
+                total_revenues(bookings)
+            case '4':
+                total_cancellation_fee(bookings)
+            case '5':
+                most_popular_room(bookings,rooms)
+            case '6':
+                bookings_by_room(bookings)
+            case '7':
+                room_occupancy(rooms,bookings)
+            case '8':
+                active = False
+            case _:
+                print('Invalid option.')
+    
+
+
 
 def main_menu():
     print("""
@@ -91,7 +139,8 @@ def main_menu():
 
     1. Rooms management
     2. Bookings management
-    3. Exit
+    3. Reports
+    4. Exit
     """)
 
 
@@ -106,6 +155,9 @@ def main():
             case '2':
                 booking_main()
             case '3':
+                report_main()
+            case '4':
+                print('Goodbye')
                 active = False
             case _:
                 print('Invalid option.')

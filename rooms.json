@@ -58,5 +58,15 @@
     "max_players": 4,
     "price_per_player": 100,
     "is_active": true
+  },
+  {
+    "room_id": "R007",
+    "name": "Meni",
+    "difficulty": "Hard",
+    "duration": 60,
+    "min_players": 5,
+    "max_players": 8,
+    "price_per_player": 100,
+    "is_active": true
   }
 ]

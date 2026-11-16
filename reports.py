@@ -1,6 +1,59 @@
 from datetime import datetime, time, timedelta
-from helpers import get_room_id_from_user
+from helpers import get_room_id_from_user,get_room_by_id
 from validators import valid_str
+
+
+def active_bookings(bookings):
+    print(f'total active bookings: {len([booking for booking in bookings if booking['status'] == "Active"])}')
+            
+def canceled_bookings(bookings):
+     print(f'total cancelled bookings: {len([booking for booking in bookings if booking['status'] == "Cancelled"])}')
+
+def total_revenues(bookings):
+    active = [booking for booking in bookings if booking['status'] == 'Active']
+    if not active:
+        print('No active bookings')
+        return
+    print( f'total_revenues: {sum(booking['total_price'] for booking in active)}')
+
+
+def total_cancellation_fee(bookings):
+    canceled_bookings = [booking for booking in bookings if booking['status'] == 'Cancelled']
+    if not canceled_bookings:
+        print('No canceled booking')
+        return
+    print(f'total cancellation_fee: {sum(booking["cancellation_fee"] for booking in canceled_bookings )}')
+
+
+def most_popular_room(bookings,rooms): 
+    bookings_rooms = {}
+    for booking in bookings:
+        if booking['status'] == 'Active':
+            if booking['room_id'] not in bookings_rooms:
+                bookings_rooms[booking['room_id']] = 1
+            else:
+                bookings_rooms[booking['room_id']] += 1
+    if not bookings_rooms:
+        print('No active bookings ')
+        return
+    popular_room_id = max(bookings_rooms,key = bookings_rooms.get)
+    room = get_room_by_id(rooms,popular_room_id)
+    print(f'most popular room:  {room}')
+
+def bookings_by_room(bookings):
+    if not bookings:
+        print('No bookings')
+        return
+    bookings_rooms = {}
+    for booking in bookings:
+        if booking['room_id'] not in bookings_rooms:
+            bookings_rooms[booking['room_id']] = 1
+        else:
+            bookings_rooms[booking['room_id']] += 1
+    for room,bookings in bookings_rooms.items():
+        print(f'room id: {room}, number of bookings: {bookings}')
+    
+
 
 
 def room_occupancy(rooms, bookings):
